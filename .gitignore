@@ -1,0 +1,5 @@
+# Ignore files in the following directory
+/results/raw/
+/.idea/
+/logs/
+/data/
