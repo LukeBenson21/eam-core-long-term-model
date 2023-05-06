@@ -1,0 +1,39 @@
+process name,variable name,mean value,unit
+Access Network,I_Acc,0.019537458716174953,joule / megabit
+Access Network,carbon,27.91330708118892,kilogram
+Access Network,carbon_intensity,182.79961296543064,gram / kilowatt_hour
+Access Network,datavolume_Tx_CDN,457390609591760.44,baud * minute
+Access Network,energy,148.82758036427296,kilowatt_hour
+Content Delivery Network,I_Store,290.3505878862461,joule / terabit
+Content Delivery Network,I_Tx,12.130871508095659,joule / gigabit
+Content Delivery Network,cachemiss_rate,0.3030812995551895,dimensionless
+Content Delivery Network,carbon,22.727634538460958,kilogram
+Content Delivery Network,carbon_intensity,182.79961296543064,gram / kilowatt_hour
+Content Delivery Network,datavolume_Rx_CDN,138701696026323.56,baud * minute
+Content Delivery Network,datavolume_Tx_CDN,457390609591760.44,baud * minute
+Content Delivery Network,energy,121.1772004665483,kilowatt_hour
+Content Delivery Network,energy_CDN_Rx,1684300603812726.0,baud * joule * minute / gigabit
+Content Delivery Network,energy_CDN_Tx,5546071860326220.0,baud * joule * minute / gigabit
+Content Delivery Network,energy_storage,4.025956385395837e+16,baud * joule * minute / terabit
+Core Network,I_Core,0.01849188549551479,joule / megabit
+Core Network,carbon,26.453452456889504,kilogram
+Core Network,carbon_intensity,182.79961296543064,gram / kilowatt_hour
+Core Network,datavolume_Tx_CDN,457390609591760.44,baud * minute
+Core Network,energy,141.04738973898068,kilowatt_hour
+Origin Datacentre,I_Store,290.3505878862461,joule / terabit
+Origin Datacentre,I_Tx,12.130871508095659,joule / gigabit
+Origin Datacentre,carbon,5.390896263304887,kilogram
+Origin Datacentre,carbon_intensity,182.79961296543064,gram / kilowatt_hour
+Origin Datacentre,datavolume_Rx_CDN,138701696026323.56,baud * minute
+Origin Datacentre,energy,28.74266946111167,kilowatt_hour
+Origin Datacentre,energy_serving,1684300603812726.0,baud * joule * minute / gigabit
+Origin Datacentre,energy_storage,4.025956385395837e+16,baud * joule * minute / terabit
+TV,bitrate,10475302.503855092,baud
+TV,carbon,21732.696861617038,kilogram
+TV,carbon_intensity,182.79961296543064,gram / kilowatt_hour
+TV,daily_audience,28900463.819279805,dimensionless
+TV,datavolume_Tx_CDN,457390609591760.44,baud * minute
+TV,energy,115872.76291912251,kilowatt_hour
+TV,energy_decoding,6952365775.14736,minute * watt
+TV,power_decoding,159.1358755725157,watt
+TV,viewing_time,43672543.78480358,minute
