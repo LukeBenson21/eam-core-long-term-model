@@ -2,28 +2,16 @@ variant: 2
 
 Processes:
 
-#Origin Datacentre
+#Origin Datacenter
   - name: Origin Datacentre
-
-#    metadata:
-    ##      - description: |
-    ##          energy_meta = analytics, recommendation
-    ##
-    ##          general formula:
-    ##                  energy_encoding = sum { i in (titles x codecs x resolutions x quality points) } encoding_energy_i
-    ##                  energy_Tx = datavolume_served_origin * energy_intensity_Tx
-    ##                  energy_storage = datavolume_origin * energy_intensity_storage
-    ##                  energy = energy_encoding + energy_storage + energy_Tx + energy_meta
-    ##                  energy_encoding = sum { i in (titles x codecs x resolutions x quality points) } encoding_energy_i
-    ##                  $$
-    ##                    E^{ODC} = E_{encoding}^{ODC} + E_{storage}^{ODC} + E_{Tx}^{ODC} + E_{meta}^{ODC}
-    ##                  $$
     formula: |      
-      energy_serving = datavolume_Rx_CDN * I_Tx;      
-      energy = energy_serving;
+      energy_serving = datavolume_Rx_CDN * I_Tx;
+      energy_storage = datavolume_Rx_CDN * I_Store;
+      energy = energy_serving + energy_storage;
       carbon = energy * carbon_intensity;
     tableVariables:
       - value: I_Tx
+      - value: I_Store
       - value: carbon_intensity
     importVariables:
       - value: datavolume_Rx_CDN
@@ -31,21 +19,18 @@ Processes:
 
 #Content Delivery Network (CDN) -> Origin Network
   - name: Content Delivery Network
-    # https://openconnect.netflix.com/en_gb/appliances/
-#    assume mix of OC servers, calculate Tx intensity, scale with bandwidth, neglect storage energy
-
-#      energy_CDN_storage = datavolume_Rx_CDN * I_storage;
     formula: |            
-      datavolume_Rx_CDN = cachemiss_rate * datavolume_Tx_CDN;  
+      datavolume_Rx_CDN = cachemiss_rate * datavolume_Tx_CDN;
+      energy_storage = datavolume_Rx_CDN * I_Store;
       energy_CDN_Rx = datavolume_Rx_CDN * I_Tx;
       energy_CDN_Tx = datavolume_Tx_CDN * I_Tx;          
-      energy = energy_CDN_Rx + energy_CDN_Tx;
+      energy = energy_CDN_Rx + energy_CDN_Tx + energy_storage;
       carbon = energy * carbon_intensity;
     tableVariables:
       - value: cachemiss_rate
       - value: I_Tx
+      - value: I_Store
       - value: carbon_intensity
-#      - value: I_storage
     importVariables:
       - value: datavolume_Tx_CDN
     exportVariables:
@@ -62,13 +47,10 @@ Processes:
     tableVariables:
       - value: I_Core
       - value: carbon_intensity
-#      - value: P_Core_per_sub
     importVariables:
       - value: datavolume_Tx_CDN
-      - value: viewing_time
     exportVariables:
       - value: datavolume_Tx_CDN
-      - value: viewing_time
 
     link_to:
       - Content Delivery Network
@@ -81,38 +63,31 @@ Processes:
     tableVariables:
       - value: I_Acc
       - value: carbon_intensity
-#      - value: P_Acc_per_sub
     importVariables:
       - value: datavolume_Tx_CDN
-      - value: viewing_time
     exportVariables:
       - value: datavolume_Tx_CDN
-      - value: viewing_time
 
     link_to:
       - Core Network
 
-#  @todo:    calculate average bandwidth and pass up to OpenConnect CDNs
+#TV-> Core Network
   - name: TV
     formula: |
-
-      viewing_time = daily_audience * viewing_time * 365.25;
-      datavolume_Tx_CDN = viewing_time * bitrate;
+      viewing_time = daily_audience * viewing_time;
+      datavolume_Tx_CDN = viewing_time  * bitrate;
       energy_decoding = viewing_time * power_decoding;
       energy = energy_decoding;
       carbon = energy * carbon_intensity;
-#      energy_Rx = viewing_time * power_Tx;
     tableVariables:
       - value: daily_audience
       - value: viewing_time
       - value: bitrate
       - value: power_decoding
       - value: carbon_intensity
-#      - value: power_Tx
 
     exportVariables:
       - value: datavolume_Tx_CDN
-      - value: viewing_time
     link_to:
       - Access Network
 
@@ -122,8 +97,8 @@ Metadata:
   model_version: 0.0.1
   description: simple model of whole-systems UG video content energy consumption, to compare alternative codecs
   table_file_name: ..\eam-core-long-term-model\long_term_model.xlsx
-  start_date: 2020-03-01
-  end_date: 2021-03-01
+  start_date: 2022-01-01
+  end_date: 2023-01-01
 
   # group-level
   with_group: true
@@ -152,7 +127,6 @@ Analysis:
     - energy
     - carbon
   numerical:
-    # this generates the sheets in results_default_[] and the result_data_[] xlsx files
     - energy
     - carbon
   units:
